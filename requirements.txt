@@ -1,0 +1,72 @@
+﻿# ==========================================
+# AI ROBOT - WINDOWS DEPENDENCIES
+# ==========================================
+# === Vision (optional - for face tracking) ===
+# Uncomment if you need eye tracking/face detection
+opencv-python==4.10.0.84
+mediapipe==0.10.18
+cvzone==1.6.1
+pyserial==3.5
+
+
+# === Core HTTP (Required) ===
+requests==2.32.3
+urllib3==2.2.1
+
+# === Audio Recording / Playback ===
+# PyAudio is the main backend for Windows
+pyaudio==0.2.14
+#opencv-python==4.10.0.84
+
+# sounddevice works cross-platform and lighter than PyAudio
+sounddevice==0.4.7
+
+# pygame (optional fallback for audio playback)
+#######pygame==2.6.1
+# === Voice Activity Detection (VAD) ===
+#webrtcvad==2.0.10
+####webrtcvad-wheels==2.0.14
+
+# === Utilities ===
+#numpy==2.2.6 # has a conflict with mediapipe==0.10.18 and opencv-python==4.10.0.84
+numpy==1.26.4
+
+# Environment & Configuration
+python-dotenv==1.0.1
+
+
+# openai-whisper
+#######pydub==0.25.1
+
+#######imageio-ffmpeg==0.6.0
+#numpy==2.2.6
+
+
+# ==========================================
+# INSTALLATION NOTES (WINDOWS)
+# ==========================================
+
+# 1. Use Python 3.10+ (64-bit recommended).
+# 2. Create and activate venv:
+#       py -3.10 -m venv .venv
+#       .venv\Scripts\Activate
+# 3. Upgrade pip and install:
+#       python -m pip install --upgrade pip setuptools wheel
+#       pip install -r requirements_windows.txt
+# 4. Verify audio:
+#       python -m sounddevice
+#       (should list your mic / speakers)
+#
+# ==========================================
+# TROUBLESHOOTING
+# ==========================================
+
+# If PyAudio fails to install:
+#   pip install --only-binary :all: pyaudio
+#   (downloads pre-built wheel)
+
+# If you prefer sounddevice only:
+#   uninstall PyAudio → pip uninstall pyaudio
+#   and adjust your code to use sounddevice for both record/play.
+#
+# ==========================================
