@@ -235,8 +235,6 @@ def stop_speaking():
 def speak_safe(text: str):
     if not text:
         return
-    # first stop speaking
-    stop_speaking()
 
     # تحويل النص إلى صوت (TTS)
     try:
@@ -252,6 +250,8 @@ def speak_safe(text: str):
 
     # 5) تشغيل الصوت من الذاكرة مباشرة
     try:
+        # first stop speaking
+        stop_speaking()
         print("🔊 Playing response...")
         play_wav_bytes(wav_reply)
         print("✅ Playback finished\n")
