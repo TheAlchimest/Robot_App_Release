@@ -3,10 +3,10 @@
 # ==========================================
 # === Vision (optional - for face tracking) ===
 # Uncomment if you need eye tracking/face detection
-opencv-python==4.10.0.84
-mediapipe==0.10.18
-cvzone==1.6.1
-pyserial==3.5
+# opencv-python==4.10.0.84
+# mediapipe==0.10.18
+# cvzone==1.6.1
+# pyserial==3.5
 
 
 # === Core HTTP (Required) ===

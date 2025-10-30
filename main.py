@@ -32,11 +32,12 @@ from audio_player import AudioPlayer
 eye = None
 
 # ------------------- Environment Setup -------------------
+'''
 if sys.platform.startswith("linux"):
     os.environ.setdefault("DISPLAY", ":0")
     os.environ.setdefault("XAUTHORITY", "/home/pi/.Xauthority")
     os.environ.setdefault("QT_QPA_PLATFORM", "xcb")
-
+'''
 # ================= System State Manager =================
 class SystemState:
     """
