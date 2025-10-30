@@ -25,11 +25,9 @@ import argparse
 
 from Config import Config
 from utilities import WakeWordDetector, StopCommandDetector
-#from local_commands import LocalCommandHandler
-#from local_commands import get_handler
 from local_commands import LocalCommandHandler
 from audio_player import AudioPlayer
-eye = None
+
 
 # ================= System State Manager =================
 class SystemState:
@@ -132,8 +130,6 @@ config = Config()
 allow_interruption = False
 allow_wake_word = True
 device = "raspi5"
-eye_model = "img"
-has_eye_model = False
 # ------------------- Queues for Thread Communication -------------------
 audio_queue = Queue(maxsize=3)
 system_state = SystemState()
@@ -210,12 +206,7 @@ def parse_args():
         choices=["raspi5", "raspi0", "windows"],
         help="Select device type (default from .env)"
     )
-    parser.add_argument(
-        "--eye_model",
-        type=str,
-        choices=["img", "video", "draw","track", "none"],
-        help="Select eye model type (default from .env)"
-    )
+ 
 
     return parser.parse_args()
 
@@ -229,6 +220,8 @@ def stop_speaking():
 def speak_safe(text: str):
     if not text:
         return
+    # first stop speaking
+    stop_speaking()
 
     # تحويل النص إلى صوت (TTS)
     try:
@@ -244,8 +237,6 @@ def speak_safe(text: str):
 
     # 5) تشغيل الصوت من الذاكرة مباشرة
     try:
-        # first stop speaking
-        stop_speaking()
         print("🔊 Playing response...")
         play_wav_bytes(wav_reply)
         print("✅ Playback finished\n")
@@ -263,7 +254,7 @@ def safe_put(q, item):
 # ------------------- Utility Methods END-------------------
 # ===================== Initialize Global Settings =====================
 def initialize_settings():
-    global allow_interruption, allow_wake_word, device, eye_model, has_eye_model, eye
+    global allow_interruption, allow_wake_word, device
 
     args = parse_args()
 
@@ -271,36 +262,13 @@ def initialize_settings():
     allow_wake_word = (args.allow_wake_word if args.allow_wake_word is not None else config.ALLOW_WAKE_WORD )
 
     device = args.device or config.DEVICE
-    eye_model = args.eye_model or config.EYE_MODEL
 
-    # Normalize "none" values and detect if model exists
-    if eye_model is None or str(eye_model).lower() == "none":
-        has_eye_model = False
-        eye = None
-    else:
-        has_eye_model = True
-
-        # Dynamic import based on eye_model value
-        if eye_model == "draw":
-            import eye_runner_zero as eye
-        elif eye_model == "img":
-            import eye_runner as eye
-        elif eye_model == "video":
-            import eye_video_player as eye
-        elif eye_model == "track":
-            import face_tracker as eye
-        else:
-            print(f"⚠️ Unknown eye_model '{eye_model}', skipping eye initialization.")
-            eye = None
-            has_eye_model = False
 
     # Print configuration summary
     print("\n========= CONFIGURATION =========")
     print(f"allow_interruption = {allow_interruption}")
     print(f"allow_wake_word    = {allow_wake_word}")
     print(f"device             = {device}")
-    print(f"eye_model          = {eye_model}")
-    print(f"has_eye_model      = {has_eye_model}")
     print("=================================\n")
 
 # ===================== ========================= =====================
@@ -586,13 +554,6 @@ def main():
         )
     else:
         print("⚠️ Interruption disabled, skipping InterruptionThread")
-
-    # 👁️ Add eye thread only if eye_model is not None
-    if has_eye_model and eye is not None:
-        threads.append(threading.Thread(target=eye.run, daemon=True, name="EyeThread"))
-    else:
-        print("⚠️ No eye model loaded, skipping EyeThread")
-
 
     # 🧠 Always run main logic thread
     threads.append(

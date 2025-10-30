@@ -26,6 +26,7 @@ pi@raspberrypi:~/apps/Robot_App_Release $ git pull
 
 
 
+pi@raspberrypi:~/apps/Robot_App_Release $ python main.py --allow_wake_word=False --device=raspi5 
 
 
 
