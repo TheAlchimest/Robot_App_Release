@@ -444,7 +444,8 @@ def main_thread():
                 '''
                 if not user_text or not user_text.strip():
                     print("⚠️  user_text updated")
-                    user_text = "tell me a tiny story from arabn nights with in about 100 words"
+                    user_input = "tell me a tiny story from arabn nights with in about 100 words"
+                    user_text = user_input
 
             except Exception as ex:
                 print(f"❌ STT error: {ex}")
