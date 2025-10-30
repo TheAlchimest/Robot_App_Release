@@ -437,10 +437,15 @@ def main_thread():
                 else:
                     user_text = str(user_input)
                 
+                '''
                 if not user_text or not user_text.strip():
                     print("⚠️  Empty transcription")
                     continue
-                    
+                '''
+                if not user_text or not user_text.strip():
+                    print("⚠️  user_text updated")
+                    user_text = "tell me a tiny story from arabn nights with in about 100 words"
+
             except Exception as ex:
                 print(f"❌ STT error: {ex}")
                 import traceback
