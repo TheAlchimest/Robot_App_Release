@@ -38,6 +38,11 @@ if sys.platform.startswith("linux"):
     os.environ.setdefault("XAUTHORITY", "/home/pi/.Xauthority")
     os.environ.setdefault("QT_QPA_PLATFORM", "xcb")
 '''
+
+os.environ["QT_QPA_PLATFORM"] = "offscreen"
+os.environ.pop("DISPLAY", None)
+os.environ.pop("XAUTHORITY", None)
+
 # ================= System State Manager =================
 class SystemState:
     """
